@@ -11,6 +11,8 @@ from dataset import load_ddsm_data
 import os
 import sys
 import argparse
+from collections import OrderedDict
+from utils import line_writer
 
 epsilon = 1e-6
 
@@ -257,8 +259,15 @@ def main(args):
                 )
 
                 if i % 100 == 0:
-                    print('Iter: {}; D_loss: {:.4}; G_loss: {:.4}'
-                        .format(i, D_loss_curr, G_loss_curr))
+                    #print('Iter: {}; D_loss: {:.4}; G_loss: {:.4}'
+                    #    .format(i, D_loss_curr, G_loss_curr))
+                    info = [
+                        ('Epoch', str(it)),
+                        ('Batch', str(i)),
+                        ('D_loss', D_loss_curr),
+                        ('G_loss', G_loss_curr)
+                    ]
+                    line_writer(OrderedDict(info))
                     g_loss_overall.append(G_loss_curr)
                     d_loss_overall.append(D_loss_curr)
                     samples = sess.run(G_sample)

@@ -1,4 +1,4 @@
-EXEC_SCRIPT=/lfs/local/0/annhe/catgan/catgan_cnn_ddsm.py
+EXEC_SCRIPT=/lfs/1/annhe/catgan/catgan_cnn_ddsm.py
 
 #TAN_PATH='/dfs/scratch0/annhe/experiments/ddsm/log/2018_02_24/tan_only_mammo_paper_tfs36_debug_23_19_39/tan/'
 
@@ -6,7 +6,7 @@ OUTPUT_PATH="/dfs/scratch0/annhe/experiments/catgan/logs"
 #DATA_DIR="/dfs/scratch0/annhe/tanda_750_90_10_split/"
 #LABEL_JSON="$DATA_DIR/mass_to_label.json"
 EXP_NAME='catgan_exp_ddsm'
-DEVICE_NAME='cpu'
+DEVICE_NAME='gpu'
 START_DATE=`date +"%m_%d_%y"`
 RUN_LOG_PATH="$OUTPUT_PATH/${START_DATE}/${EXP_NAME}/${TRIAL_NAME}/run_log.txt"
 
@@ -27,7 +27,7 @@ for epochs in 5
 do
 TRIAL_NAME=${EXP_NAME}_ep_${epochs}_wt_${weights}_lr_${lr}_do_${dp}_bs_${bs}
 TIME=`date +"%H_%M_%S"`
-LOG_PATH="$OUTPUT_PATH/${START_DATE}/${EXP_NAME}/${TRIAL_NAME}/"
+LOG_PATH="$OUTPUT_PATH/${START_DATE}/${EXP_NAME}/${TRIAL_NAME}/${TIME}/"
 mkdir -p $LOG_PATH
 LOGFILE="$LOG_PATH/terminal_run_log_${TIME}.log"
 python $EXEC_SCRIPT --device_name $DEVICE_NAME --batch_size $bs --lr $lr --num_epochs $epochs --z_dim 300 --n_class 2 --ce_term $ce --dir_name $LOG_PATH 2>&1 | tee $LOGFILE
