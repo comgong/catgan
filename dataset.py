@@ -1,6 +1,6 @@
 
 import numpy as np
-import cPickle
+import pickle
 import os
 import shutil
 import json
@@ -26,12 +26,12 @@ def load_files(dirs, label_json, segmentations):
     val_imgs = os.listdir(val_dir)
     test_imgs = os.listdir(test_dir)
     mask_imgs = os.listdir(masks_dir)
-    print "LEN OF MASK DIR", len(mask_imgs)
+    print("LEN OF MASK DIR", len(mask_imgs))
 
     ##open json file
     with open(label_json, 'r') as fp:
         img_to_label = json.load(fp)
-    assert type(img_to_label.values()[0]) == int, 'labels are not ints.'
+    assert type(list(img_to_label.values())[0]) == int, 'labels are not ints.'
 
     def append_lists(img_dir, imgs, mask_dir=None, mask_imgs=None):
         X, Y, masks = [], [], []
@@ -48,7 +48,7 @@ def load_files(dirs, label_json, segmentations):
     masks = None
     if segmentations:
         train_imgs = [img for img in train_imgs if img in mask_imgs]
-        print "LEN OF IMGS TAHT CORRESPOND TO MASK IMGS", len(train_imgs)
+        print("LEN OF IMGS TAHT CORRESPOND TO MASK IMGS", len(train_imgs))
         X_train, Y_train, masks = append_lists(train_dir, train_imgs, \
             mask_dir=masks_dir, mask_imgs=mask_imgs)
     else:
@@ -75,7 +75,7 @@ def convert_file(files, y, as_float, masks=None, channels=1):
     else:
         X = np.zeros((len(files), IMAGE_SIZE, IMAGE_SIZE, channels+1))
 
-    print 'loading in %d images...' % len(files)
+    print('loading in %d images...' % len(files))
     for i, example in enumerate(files):
         im = Image.open(example)
         im = np.array(im.resize((IMAGE_SIZE, IMAGE_SIZE)))
@@ -94,7 +94,7 @@ def convert_file(files, y, as_float, masks=None, channels=1):
                 mask = mask[:,:,np.newaxis]
                 X[i,:,:,channels] = np.squeeze(img_as_float(mask))
             else:
-                print "MASK LEN IS ONE MAKING IT BLACK"
+                print("MASK LEN IS ONE MAKING IT BLACK")
                 X[i,:,:,channels] = img_as_float(np.zeros((IMAGE_SIZE, IMAGE_SIZE)))
 
     return X, Y  
@@ -102,8 +102,8 @@ def convert_file(files, y, as_float, masks=None, channels=1):
 def load_ddsm_data(data_dir, label_json, \
     validation_set=True, segmentations=True, \
     one_hot=True, as_float=True, channels=1):
-    print "IN FUNCTION LOAD DDSM DATA"
-    print "YO YO YO"
+    print("IN FUNCTION LOAD DDSM DATA")
+    print("YO YO YO")
     """Read in train, validation, test files"""
     train_dir = os.path.join(data_dir, 'train_set')
     val_dir = os.path.join(data_dir, 'val_set')
@@ -137,12 +137,12 @@ if __name__ == '__main__':
     label_json = './data/json/mass_to_label.json'
     X_train, Y_train, X_valid, Y_valid, X_test, Y_test = \
         load_ddsm_data(data_dir, label_json, segmentations=True)
-    print X_train.shape
-    print Y_train.shape
-    print X_valid.shape
-    print Y_valid.shape
-    print X_test.shape
-    print Y_test.shape
+    print(X_train.shape)
+    print(Y_train.shape)
+    print(X_valid.shape)
+    print(Y_valid.shape)
+    print(X_test.shape)
+    print(Y_test.shape)
 
     # data_root = './data'
     # train_dir = os.path.join(data_root, 'train_set')

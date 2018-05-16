@@ -197,7 +197,9 @@ def main(args):
     X_train = X_train[0:1104,:]
     Y_train = Y_train[0:1104,:]
     conv_info = np.array([64, 128, 256])
-    deconv_info = np.array([[300, 3, 1], [100, 7, 2], [50, 5, 2], [25, 5, 2], [12, 6, 2], [3, 6, 2]])
+    #deconv_info = np.array([[300, 3, 1], [100, 7, 2], [50, 5, 2], [25, 5, 2], [12, 6, 2], [3, 6, 2]])
+    #deconv_info = np.array([[1000, 3, 1], [250, 7, 2], [100, 5, 2], [25, 5, 2], [12, 6, 2], [3, 6, 2]])
+    deconv_info = np.array([[1000, 6, 2], [250, 6, 2], [100, 6, 3], [25, 8, 2], [12, 8, 2], [3, 3, 1]])
     
     X = tf.placeholder(
             name='image', dtype=tf.float32,

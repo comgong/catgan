@@ -1,6 +1,6 @@
 import numpy as np
 import timeit
-import poisson_blending
+from . import poisson_blending
 import copy
 from scipy import linalg
 from six.moves import range
@@ -375,12 +375,12 @@ def rotate_image(img, angle, pivot):
 def TF_translate_structure_with_tissue(x, translation=None, num_pixels=10, \
     target=None, dim=224):
     #create copy of target
-    print "FROM TRANSLATE TARGET SIZE ", target.shape
-    print "FROM TRANSLATE X SIZE", x.shape
+    print("FROM TRANSLATE TARGET SIZE ", target.shape)
+    print("FROM TRANSLATE X SIZE", x.shape)
     start = timeit.default_timer()
     imsg = img_as_float(copy.deepcopy(x))
     target = img_as_float(copy.deepcopy(target))
-    print "GOT TO TF TRANSLATE 1"
+    print("GOT TO TF TRANSLATE 1")
     
     #translate/rotate/dilate segmentation
     args = np.where(imsg[:,:,1] != 0)
@@ -418,10 +418,10 @@ def TF_translate_structure_with_tissue(x, translation=None, num_pixels=10, \
     #-39,15
     #print "y_translate: ", y_translate, " x_translate: ", x_translate
     #print "MASK SHAPE BEFORE PASSING: ", new_mask.shape
-    print "GOT TO TF TRANSLATE 2 - about to call poisson blending"
+    print("GOT TO TF TRANSLATE 2 - about to call poisson blending")
     new_img = poisson_blending.blend(target, imsg[:,:,0], \
             new_mask, offset=(y_translate, x_translate))
-    print "GOT TO TF TRANSLATE 3 - RETURNED FROM poisson blending"
+    print("GOT TO TF TRANSLATE 3 - RETURNED FROM poisson blending")
     new_img = target
     new_seg = np.zeros((dim, dim))
     new_seg[new_seg_args[0],new_seg_args[1]] = 255
@@ -430,7 +430,7 @@ def TF_translate_structure_with_tissue(x, translation=None, num_pixels=10, \
     im[:,:,0] = new_img
     im[:,:,1] = img_as_float(new_seg.astype(np.uint8))
     stop = timeit.default_timer()
-    print "RETURNING FROM TF TRANSLATE, RUNTIME IN S: ", stop-start
+    print("RETURNING FROM TF TRANSLATE, RUNTIME IN S: ", stop-start)
     return im
 
 def TF_translate_structure_with_tissue_3D(imsg, translation=None, num_pixels=10, \

@@ -1,4 +1,4 @@
-from image_tfs import *
-from mammo_tfs import *
+from .image_tfs import *
+from .mammo_tfs import *
 
 
